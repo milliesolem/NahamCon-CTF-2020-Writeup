@@ -89,3 +89,97 @@ What is the PIN?
 Good job you won!
 flag{thats_the_twinning_pin_to_win}
 ```
+
+##Homecooked
+
+```
+I cannot get this to decrypt!
+
+Download the file below.
+```
+
+In this challenge, we're given a python script decrypt.py:
+
+```python
+import base64
+num = 0
+count = 0
+cipher_b64 = b"MTAwLDExMSwxMDAsOTYsMTEyLDIxLDIwOSwxNjYsMjE2LDE0MCwzMzAsMzE4LDMyMSw3MDIyMSw3MDQxNCw3MDU0NCw3MTQxNCw3MTgxMCw3MjIxMSw3MjgyNyw3MzAwMCw3MzMxOSw3MzcyMiw3NDA4OCw3NDY0Myw3NTU0MiwxMDAyOTAzLDEwMDgwOTQsMTAyMjA4OSwxMDI4MTA0LDEwMzUzMzcsMTA0MzQ0OCwxMDU1NTg3LDEwNjI1NDEsMTA2NTcxNSwxMDc0NzQ5LDEwODI4NDQsMTA4NTY5NiwxMDkyOTY2LDEwOTQwMDA="
+
+def a(num):
+    if (num > 1):
+        for i in range(2,num):
+            if (num % i) == 0:
+                return False
+                break
+        return True
+    else:
+        return False
+       
+def b(num):
+    my_str = str(num)
+    rev_str = reversed(my_str)
+    if list(my_str) == list(rev_str):
+       return True
+    else:
+       return False
+
+
+cipher = base64.b64decode(cipher_b64).decode().split(",")
+
+while(count < len(cipher)):
+    if (a(num)):
+        if (b(num)):
+            print(chr(int(cipher[count]) ^ num), end='', flush=True)
+            count += 1
+            if (count == 13):
+                num = 50000
+            if (count == 26):
+                num = 500000
+    else:
+        pass
+    num+=1
+
+print()
+```
+
+Running this file prints chunks of the flag, but eventually just stops with only a partial chunk of the flag visible. Looking at the functions, it quickly becomes apparent that `a` is a very crude implementation of a primality test; going through every number from 2 through `n` to check if they're divisible by `n`. This will obviously take a long time for numbers that are large primes or have large prime factors. On the [Wikipedia](https://en.wikipedia.org/wiki/Primality_test#Pseudocode) article about primality tests we find a bit more efficient algorithm:
+
+```
+function is_prime(n)
+    if n ≤ 3 then
+        return n > 1
+    else if n mod 2 = 0 or n mod 3 = 0
+        return false
+
+    let i ← 5
+
+    while i × i ≤ n do
+        if n mod i = 0 or n mod (i + 2) = 0
+            return false
+        i ← i + 6
+
+    return true
+```
+And here's the algorithm written in python:
+
+```python
+def a(n):
+    if n <= 3:
+        return n > 1
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+
+    i = 5
+
+    while i * i <= n:
+        if n % i == 0 or n %(i + 2) == 0:
+            return False
+        i += 6
+
+    return True
+```
+
+Implementing the new function and running the script now quickly reveals the entire flag:
+
+`flag{pR1m3s_4re_co0ler_Wh3n_pal1nDr0miC}`
