@@ -26,7 +26,7 @@ This challenge will definitely stick with me, as it is the first time ever that 
 
 ![alt text](https://raw.githubusercontent.com/williamsolem/NahamCon-CTF-2020-Writeup/master/Twinning/formula.png "Reverse Conjugate")
 
-The essence of this formula is that it's able to factorize the factor of two primes `p` and `q` when `p` and `q` are consecutive (twin primes) or at least very close. The way I came up with this formula was when trying to find some way to apply the conjugate rule backwards in order to factorize `n`. I was somewhat successful, however it does diminish in accuracy quite gravely the futher away `p` and `q` are from eachother. Do note that `m` does NOT refer to the variable `m` in RSA, it is merely an intermediete variable to make the math a little more elegant. I guess you could say it's a very fancy way of doing the square root of `n`, and is pretty much useless in any practical contexts. (Though if any math geeks know a way to improve it to have accuracy across a wider range of primes, please let me know)
+The essence of this formula is that it's able to factorize the factor of two primes `p` and `q` when `p` and `q` are consecutive (including twin primes, which are primes with a difference of 2) or at least very close. The way I came up with this formula was when trying to find some way to apply the conjugate rule backwards in order to factorize `n`. I was somewhat successful, however it does diminish in accuracy quite gravely the futher away `p` and `q` are from eachother. Do note that `m` does NOT refer to the variable `m` in RSA, it is merely an intermediate variable to make the math a little more elegant. I guess you could say it's a very fancy way of doing the square root of `n`, and is pretty much useless in any practical contexts. (Though if any math geeks know a way to improve it to have accuracy across a wider range of primes, please let me know)
 
 Anyhow, we can write this formula as a python script:
 
@@ -143,7 +143,7 @@ while(count < len(cipher)):
 print()
 ```
 
-Running this file prints chunks of the flag, but eventually just stops with only a partial chunk of the flag visible. Looking at the functions, it quickly becomes apparent that `a` is a very crude implementation of a primality test; going through every number from 2 through `n` to check if they're divisible by `n`. This will obviously take a long time for numbers that are large primes or have large prime factors. On the [Wikipedia](https://en.wikipedia.org/wiki/Primality_test#Pseudocode) article about primality tests we find a bit more efficient algorithm:
+Running this file prints chunks of the flag, but eventually just stops with only a partial chunk of the flag visible. Looking at the functions, it quickly becomes apparent that `a` is a very crude implementation of a primality test; going through every number from 2 through `n` to check if they divide `n`. This will obviously take a long time for numbers that are large primes or have large prime factors. On the [Wikipedia](https://en.wikipedia.org/wiki/Primality_test#Pseudocode) article about primality tests we find a bit more efficient algorithm:
 
 ```
 function is_prime(n)
