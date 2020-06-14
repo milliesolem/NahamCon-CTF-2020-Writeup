@@ -24,7 +24,7 @@ Looks like RSA but with wayyy too small numbers, but they also have another weak
 
 This challenge will definitely stick with me, as it is the first time ever that a small formula I came up with a while ago actually became useful:
 
-![alt text](twinning/formula.png "Reverse Conjugate")
+![alt text](https://raw.githubusercontent.com/williamsolem/NahamCon-CTF-2020-Writeup/master/Twinning/formula.png "Reverse Conjugate")
 
 The essence of this formula is that it's able to factorize the factor of two primes `p` and `q` when `p` and `q` are consecutive (twin primes) or at least very close. The way I came up with this formula was when trying to find some way to apply the conjugate rule backwards in order to factorize `n`. I was somewhat successful, however it does diminish in accuracy quite gravely the futher away `p` and `q` are from eachother. Do note that `m` does NOT refer to the variable `m` in RSA, it is merely an intermediete variable to make the math a little more elegant. I guess you could say it's a very fancy way of doing the square root of `n`, and is pretty much useless in any practical contexts. (Though if any math geeks know a way to improve it to have accuracy across a wider range of primes, please let me know)
 
